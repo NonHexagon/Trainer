@@ -31,3 +31,4 @@ def test_post(user_id):
 if __name__ == '__main__':  # Создаем точку доступа
     port = int(os.environ.get("PORT", 5050))
     application.run(host='0.0.0.0', port=port, debug=True)  # Запускаем приложение без опции дебага
+
