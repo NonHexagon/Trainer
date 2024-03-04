@@ -28,6 +28,13 @@ def test_post(user_id):
     return f'your uuid is - {user_id}'
 
 
+@application.route('/test', methods=['POST'])
+def test_post_only():
+    data = request.json
+    print(data)
+    return jsonify(data)
+
+
 if __name__ == '__main__':  # Создаем точку доступа
     port = int(os.environ.get("PORT", 5050))
     application.run(host='0.0.0.0', port=port, debug=False)  # Запускаем приложение без опции дебага
