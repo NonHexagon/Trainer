@@ -22,7 +22,7 @@ def test_get():
     }
 
 
-@application.route('/test_post/<user_id>', methods=['GET'])
+@application.route('/test_post/<user_id>', methods=['GET', 'POST'])
 def test_post(user_id):
     print(user_id)
     return f'your uuid is - {user_id}'
@@ -30,5 +30,4 @@ def test_post(user_id):
 
 if __name__ == '__main__':  # Создаем точку доступа
     port = int(os.environ.get("PORT", 5050))
-    application.run(host='0.0.0.0', port=port, debug=True)  # Запускаем приложение без опции дебага
-
+    application.run(host='0.0.0.0', port=port, debug=False)  # Запускаем приложение без опции дебага
