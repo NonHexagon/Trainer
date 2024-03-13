@@ -7,8 +7,8 @@ import 'package:sport_app/repositories/auth/auth_repository.dart';
 import 'package:sport_app/repositories/auth/models/auth_model.dart';
 
 class SignUpScreen extends StatelessWidget {
-  final AuthRepository? authRepository;
-  const SignUpScreen({super.key, this.authRepository});
+  final AuthRepository authRepository;
+  const SignUpScreen({super.key, required this.authRepository});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,9 @@ class SignUpScreen extends StatelessWidget {
                   email: emailController.text,
                   password: passwordController.text,
                 );
-                authRepository?.postUserData(authData);
+                //debugPrint('${authData.toJson()}');
+                authRepository.getUserData();
+                authRepository.postUserData(authData);
               },
             ),
             NextPage(
