@@ -43,12 +43,7 @@ def add_new_user(data):
         new_user = Users(
             username=data['username'],
             email=data['email'],
-            age=data['age'],
-            weight=data['weight'],
-            height=data['height'],
             password=data['password'],
-            is_auth=data['is_auth']
-
         )
         session_db = Session()  # Выполняем запись в бд
         session_db.add(new_user)

@@ -18,11 +18,7 @@ def test_get():
         'user_id': uuid.uuid4().hex,
         'username': 'Vasya_Turnikman_228',
         'email': 'testmail@mail.ru',
-        'age': 32,
-        'weight': 89,
-        'height': 186,
         'password': f'Test_password_{uuid.uuid4().hex}',
-        'is_auth': True
     }
 
 

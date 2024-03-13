@@ -16,11 +16,11 @@ class Users(Base, UserMixin):
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True, unique=True)
     username = Column(String(80), nullable=False, unique=True)
     email = Column(String(80), nullable=False)
-    age = Column(Integer, nullable=False)
-    weight = Column(Integer, nullable=False)
-    height = Column(Integer, nullable=False)
+    age = Column(Integer, nullable=True)
+    weight = Column(Integer, nullable=True)
+    height = Column(Integer, nullable=True)
     password = Column(String(16), nullable=False)
-    is_auth = Column(Boolean, nullable=False)
+    is_auth = Column(Boolean, nullable=True)
 
     def __repr__(self):
         return f'<User (user name = {self.username}, email = {self.email})>'
