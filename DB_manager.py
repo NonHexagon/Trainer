@@ -1,12 +1,10 @@
 import select
 import sqlite3
-import uuid
-import json
+
 
 import sqlalchemy.exc
 from sqlalchemy import *
 from DataBase import Users, UserData, engine, Session
-
 
 DataBase = sqlite3.connect('main.db', check_same_thread=False)
 cursor = DataBase.cursor()
@@ -37,8 +35,10 @@ def data_extractor(req_column, where_state=False, com_stmt='', comp_to='', to_ar
 
 
 def add_new_user(data):
-    assert list(data['username']) not in data_extractor(Users.username, to_array=True), 'Пользователь с данным именем уже создан'
-    assert list(data['email']) not in data_extractor(Users.email, to_array=True), 'Пользователь с этой почтой уже существует'
+    assert list(data['username']) not in data_extractor(Users.username,
+                                                        to_array=True), 'Пользователь с данным именем уже создан'
+    assert list(data['email']) not in data_extractor(Users.email,
+                                                     to_array=True), 'Пользователь с этой почтой уже существует'
     try:
         new_user = Users(
             username=data['username'],
@@ -51,4 +51,21 @@ def add_new_user(data):
     except sqlalchemy.exc.IntegrityError:
         return False
     return True
+
+
+def get_user_by_username(data: dict):
+    assert [data['username']] in data_extractor(Users.username, to_array=True), 'Пользователь не зарегистрирован'
+    col_names = ['username', 'email', 'password']
+    if data_extractor(Users.password, True, Users.username, data['username']) == data['password']:
+        stmt = select(Users.username, Users.email, Users.password).where(Users.username == data['username'])
+        result = {}
+        with engine.connect() as conn:
+            for row in conn.execute(stmt):
+                user_data = row
+                for i in range(len(user_data)):
+                    result[col_names[i]] = user_data[i]
+
+        return result
+    else:
+        return False
 

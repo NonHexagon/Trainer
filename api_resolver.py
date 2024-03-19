@@ -3,8 +3,8 @@ import uuid
 
 from werkzeug import exceptions
 from flask import *  # модуль для создания веб-приложений
-from DB_manager import add_new_user
-from sentry_sdk.integrations.flask import FlaskIntegration
+
+import DB_manager as dbm
 
 application = Flask(__name__)  # инициализация экземпляра класса веб-приложения на котором будем собирать проект
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////First.db'  # инициализация базы данных в проекте
@@ -26,7 +26,7 @@ def test_get():
 @application.route('/register', methods=['POST'])
 def register_user():
     data = request.json
-    res = add_new_user(data)
+    res = dbm.add_new_user(data)
     try:
         assert res, abort(400, description='User already exist')
     except AssertionError:
@@ -38,6 +38,18 @@ def register_user():
 def test_post(user_id):
     print(user_id)
     return f'your uuid is - {user_id}'
+
+
+@application.errorhandler(exceptions.Forbidden)
+@application.route('/get_username', methods=['GET', 'POST'])
+def user_by_username():
+    data = request.json
+    res = dbm.get_user_by_username(data)
+    try:
+        assert res, abort(400, description='No suitable user')
+    except AssertionError:
+        print('something went wrong')
+    return res
 
 
 @application.route('/test', methods=['POST'])
